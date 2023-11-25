@@ -1,0 +1,35 @@
+{
+  "english": {
+    "appHeading": "Translate and Summarise",
+    "appSubheading": "Select an image, click upload, and wait 20-60 seconds for the summarized translation",
+    "uploadImage": "Upload Image",
+    "choosePhoto": "Choose Photo",
+    "takePhoto": "Take Photo",
+    "selectedImage": "Selected Image:",
+    "changeLanguage": "Change Language",
+    "save": "Save",
+    "done": "Done"
+  },
+  "espanol": {
+    "appHeading": "Traducir y Resumir",
+    "appSubheading": "Selecciona una imagen, haz clic en cargar y espera de 20 a 60 segundos para la traducción resumida",
+    "uploadImage": "Subir Imagen",
+    "choosePhoto": "Elegir Foto",
+    "takePhoto": "Tomar Foto",
+    "selectedImage": "Imagen Seleccionada:",
+    "changeLanguage": "Cambiar Idioma",
+    "save": "Guardar",
+    "done": "Hecho"
+  },
+  "arabic": {
+    "appHeading": "ترجمة وتلخيص",
+    "appSubheading": "حدد صورة ، انقر فوق تحميل وانتظر من 20 إلى 60 ثانية للترجمة الملخصة",
+    "uploadImage": "قم برفع الصورة",
+    "choosePhoto": "اختر صورة",
+    "takePhoto": "التقاط صورة",
+    "selectedImage": "الصورة المحددة:",
+    "changeLanguage": "تغيير اللغة",
+    "save": "احفظ",
+    "done": "تم"
+  }
+}
