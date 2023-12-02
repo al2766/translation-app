@@ -6,6 +6,8 @@ import {
   StyleSheet,
   ScrollView,
 } from 'react-native';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
+
 
 const StarterMenu = ({onSelectLanguage, navigation}) => {
   const [selectedLanguage, setSelectedLanguage] = useState(null);
@@ -46,7 +48,7 @@ const StarterMenu = ({onSelectLanguage, navigation}) => {
   return (
     
       <ScrollView contentContainerStyle={styles.container}>
-        <Text style={styles.heading}>Select Your Language:</Text>
+        <Text style={styles.heading}>Select Your Language</Text>
         {languages.map(language => (
           
           <TouchableOpacity
@@ -57,6 +59,8 @@ const StarterMenu = ({onSelectLanguage, navigation}) => {
             ]}
             onPress={() => handleLanguageSelect(language)}>
             <Text style={styles.languageButtonText}>{language}</Text>
+            <FontAwesome5 name='chevron-right' style={{ color: 'black', fontSize: 23 }} />
+
           </TouchableOpacity>
         ))}
       </ScrollView>
@@ -66,23 +70,23 @@ const StarterMenu = ({onSelectLanguage, navigation}) => {
 
 const styles = StyleSheet.create({
   container: {
-
-    marginVertical: 50, // Remove top padding to start from the top of the page
-    paddingHorizontal: 20, 
-    paddingBottom:100,// Add horizontal padding for spacing from edges
+    paddingBottom:30,// Add horizontal padding for spacing from edges
   },
   heading: {
+    textAlign: 'center',
     fontSize: 24,
-    marginBottom: 20,
-    textAlign: 'left', // Align text to the left
+marginVertical: 50,
+    fontWeight:'500',
   },
   languageButton: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     paddingVertical: 20, // Increase padding vertically to make the buttons taller
-    marginBottom: 20,
-    borderWidth: 1,
-    borderColor: 'gray',
+
+paddingHorizontal: 20,
     backgroundColor: 'white',
-    borderRadius: 12,
+
     shadowColor: 'gray',
     shadowOffset: {width: 0, height: 2},
     shadowOpacity: 0.3,
@@ -94,6 +98,7 @@ const styles = StyleSheet.create({
   },
   languageButtonText: {
     fontSize: 16,
+    fontWeight: '500',
     textAlign: 'left', // Align text to the left
     paddingLeft: 10, // Add left padding for text
   },

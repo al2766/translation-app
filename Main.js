@@ -1,4 +1,5 @@
 import React, {useState, useEffect, useRef} from 'react';
+import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import {useFocusEffect} from '@react-navigation/native';
 import {
   View,
@@ -10,7 +11,9 @@ import {
   Animated,
   ScrollView,
   FlatList,
+  Alert,
 } from 'react-native';
+
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
@@ -152,6 +155,27 @@ const Main = ({
     }, []),
   );
 
+  const confirmDelete = (id) => {
+    Alert.alert(
+      "Confirm Delete",
+      "Are you sure you want to delete this document?",
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Deletion cancelled"),
+          style: "cancel"
+        },
+        { 
+          text: "Delete", 
+          onPress: () => deleteDocument(id),
+          style: "destructive"
+        }
+      ],
+      { cancelable: true }
+    );
+  };
+  
+
   const deleteDocument = async (id) => {
     try {
       await AsyncStorage.removeItem(id); // Remove the image URI
@@ -171,6 +195,8 @@ const Main = ({
       console.error('Error deleting document:', error);
     }
   };
+
+  
   
 
   const renderItem = ({item}) => (
@@ -187,37 +213,34 @@ const Main = ({
       />
       <Text style={styles.documentText}>{item.serverResponse}</Text>
       <TouchableOpacity
-      onPress={() => deleteDocument(item.id)}
+      onPress={() => confirmDelete(item.id)}
       style={styles.deleteButton}>
-      <Text>Delete</Text>
+<FontAwesome name='trash' style={{color: '#ce1b20', fontSize: 27}}/>
+    
     </TouchableOpacity>
     </TouchableOpacity>
   );
 
-  return (
-    <View style={styles.container}>
-      <TouchableOpacity
+  return ( 
+    <>
+     <View style={styles.changeLanguageContainer}>
+     <FontAwesome name='chevron-left' light style={{ color: 'black', fontSize: 23 }} />
+
+    <TouchableOpacity
+    
         onPress={handleChangeLanguage}
         style={styles.changeLanguageButton}>
-        <Text style={styles.buttonText}>
+        <Text style={styles.languageButtonText}>
           {getTranslatedText('changeLanguage')}
         </Text>
       </TouchableOpacity>
+      </View>
+    <View style={styles.container}>
+    
 
       <View style={styles.savedContainer}>
         {savedDocuments.length > 0 ? (
-          // Render saved documents list
-
-          // savedDocuments.map((doc, index) => (
-          //   <TouchableOpacity key={index} style={styles.documentContainer}>
-          //     <Image
-          //       // source={{uri: `data:image/png;base64,${doc.imageBase64}`}}
-          //       source={{uri: doc.imageUri}}
-          //       style={styles.documentImage}
-          //     />
-          //     <Text style={styles.documentText}>{doc.serverResponse}</Text>
-          //   </TouchableOpacity>
-          // ))
+       
           <FlatList
             data={savedDocuments}
             renderItem={renderItem}
@@ -239,9 +262,9 @@ const Main = ({
           </FadeInView>
         )}
       </View>
-      <FadeInView delay={1000}>
+
         <View style={styles.uploadContainer}>
-          <FadeInView delay={1000}>
+
             <Text
               style={[
                 styles.sectionTitle,
@@ -252,9 +275,9 @@ const Main = ({
               ]}>
               {getTranslatedText('uploadImage')}
             </Text>
-          </FadeInView>
 
-          <FadeInView delay={1500}>
+<View style={styles.uploadButtonsContainer}>
+
             <TouchableOpacity
               onPress={handleImageSelect}
               style={styles.buttonStyle}>
@@ -262,105 +285,110 @@ const Main = ({
                 {getTranslatedText('choosePhoto')}
               </Text>
             </TouchableOpacity>
-          </FadeInView>
-          <FadeInView delay={2000}>
+
+
             <TouchableOpacity onPress={onTakePhoto} style={styles.buttonStyle}>
               <Text style={styles.buttonText}>
                 {getTranslatedText('takePhoto')}
               </Text>
             </TouchableOpacity>
-          </FadeInView>
+
+          </View>
         </View>
-      </FadeInView>
+
     </View>
-  );
+ </> );
 };
 
 // ... (rest of your code)
 
 const styles = StyleSheet.create({
+  uploadButtonsContainer: {
+display: 'flex',
+flexDirection: 'row',
+gap: 20,
+justifyContent: 'space-around',
+marginTop: 10,
+
+  }
+  
+  ,
   deleteButton: {
-    backgroundColor: 'red',
-    padding: 10,
-    borderRadius: 5,
-    // Other styling as needed
+
+padding: 6,
+borderRadius: 10,
+
+  },
+  deleteButtonText: {
+    color: 'white',
+    marginLeft: 5, // Space between icon and text
   },
   documentContainer: {
-    flexDirection: 'row', // Align children in a row
-    marginBottom: 10,
-    alignItems: 'center', // Align children vertically in the center
-    height: 50, // Set a fixed height for each item
-    overflow: 'hidden', // Hide any overflowing content
-    paddingHorizontal: 30,
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderBottomWidth: 1, // Separator line
+    borderBottomColor: '#e0e0e0', // Light grey color for the separator
+    padding: 6, // Padding inside each container
+    paddingRight: 10,
+    height: 60,
+    marginVertical: 10,
   },
   savedContainer: {
-    marginTop: 80,
-    marginBottom: 210,
-    maxHeight: 300,
+    marginBottom: 90,
+    height: 410,
+ 
   },
 
   documentImage: {
-    width: 50, // Smaller width
-    height: 50, // Equal to the container height to maintain aspect ratio
-    resizeMode: 'cover', // Cover the frame of the image
+    width: 60,
+    height: 60,
+    resizeMode: 'cover',
+    marginRight: 5, // Add space between the image and the text
+    borderWidth: 1, // Optional: border around the image
+    borderColor: '#e0e0e0', // Light grey border for the image
+    borderRadius: 5, // Optional: round corners for the image
   },
   documentText: {
-    flex: 1, // Take up remaining space in the container
-    marginLeft: 10, // Space between the image and text
+flex: 1,
+    marginHorizontal: 15, // Space between the image and text
     // Optional: additional styling as needed
   },
   heading: {
+    marginTop:80,
     fontSize: 34,
-    fontWeight: 'bold',
+    fontWeight: '500',
     marginBottom: 20,
     textAlign: 'center',
+   
   },
   subheading: {
     fontSize: 18,
     marginBottom: 30,
     textAlign: 'center',
+    marginHorizontal: 30,
   },
   uploadContainer: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    bottom: 0,
+    bottom: 90,
     alignItems: 'center',
     backgroundColor: 'white',
-    paddingVertical: 30,
+    paddingVertical: 20,
   },
 
+  changeLanguageContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#FFFFFF', // Or any color you prefer
+    padding: 10, // Padding for the button
+  },
   changeLanguageButton: {
-    backgroundColor: 'lightgray',
     padding: 10,
     borderRadius: 10,
-    position: 'absolute',
+    alignSelf: 'flex-start', 
     top: 10,
     left: 10,
     paddingVertical: 10, // Increase padding vertically to make the buttons taller
     marginBottom: 20,
-    borderWidth: 1,
-    borderColor: 'gray',
-    backgroundColor: 'white',
-    borderRadius: 12,
-    shadowColor: 'gray',
-    shadowOffset: {width: 0, height: 2},
-    shadowOpacity: 0.3,
-    shadowRadius: 2,
-    elevation: 3,
-  },
-  savedButton: {
-    backgroundColor: 'lightgray',
-    padding: 10,
-    borderRadius: 10,
-    position: 'absolute',
-    top: 10,
-    right: 10,
-    paddingVertical: 10, // Increase padding vertically to make the buttons taller
-    marginBottom: 20,
-    borderWidth: 1,
-    borderColor: 'gray',
-    backgroundColor: 'white',
     borderRadius: 12,
     shadowColor: 'gray',
     shadowOffset: {width: 0, height: 2},
@@ -377,14 +405,20 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: 16,
     textAlign: 'center', // Align text to the left
+    color: 'white',
+    fontWeight: '500',
+  },
+  languageButtonText: {
+    fontSize: 16,
+    textAlign: 'center', // Align text to the left
+    color: 'black',
+    fontWeight: '500',
   },
   buttonStyle: {
-    width: 200,
-    paddingVertical: 15, // Increase padding vertically to make the buttons taller
+    alignSelf: 'flex-start', 
+    padding: 15, // Increase padding vertically to make the buttons taller
     marginBottom: 15,
-    borderWidth: 1,
-    borderColor: 'gray',
-    backgroundColor: 'white',
+    backgroundColor: '#4381a2',
     borderRadius: 12,
     shadowColor: 'gray',
     shadowOffset: {width: 0, height: 2},

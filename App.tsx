@@ -12,6 +12,8 @@ import {
   useColorScheme,
   View,
 } from 'react-native';
+import { CommonActions } from '@react-navigation/native';
+
 
 import StarterMenu from './StarterMenu';
 import ImageViewScreen from './ImageViewScreen';
@@ -95,8 +97,17 @@ function App() {
       }
     });
   };
-
-
+  const goToStarterMenu = () => {
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 1,
+        routes: [
+          { name: 'StarterMenu' },
+          { name: 'Main' },
+        ],
+      }),
+    );
+  };
 
   const backgroundStyle = {
     backgroundColor:
@@ -109,8 +120,13 @@ function App() {
         {isLoading ? (
           <Text>Loading...</Text>
         ) : (
-          <Stack.Navigator initialRouteName={initialRoute}>
-            <Stack.Screen name="StarterMenu"  options={{ headerShown: false }}>
+          <Stack.Navigator initialRouteName={initialRoute} 
+          >
+            <Stack.Screen name="StarterMenu" 
+             options={{ 
+              headerShown: false,
+          
+            }}>
               {props => (
                 <StarterMenu
                   {...props}
@@ -136,7 +152,9 @@ function App() {
               )}
             </Stack.Screen>
           
-            <Stack.Screen name="Main" options={{ headerShown: false }}>
+            <Stack.Screen name="Main"  options={{ 
+              headerShown: false,
+            }}>
               {props => (
                 <Main
                   {...props}
@@ -159,35 +177,7 @@ function App() {
   };
 
   return (
-    // <SafeAreaView style={styles.container}>
-    //   <StatusBar
-    //     barStyle={
-    //       useColorScheme() === 'dark' ? 'light-content' : 'dark-content'
-    //     }
-    //     backgroundColor={backgroundStyle.backgroundColor}
-    //   />
-    //   <ScrollView
-    //     contentInsetAdjustmentBehavior="automatic"
-    //     contentContainerStyle={styles.content}
-    //     style={styles.container}>
-    //     {/* <Main
-    //       selected={selected}
-    //       onSelectLanguage={handleSelectLanguage}
-    //       onChangeLanguage={handleChangeLanguage}
-    //       onChoosePhoto={handleChoosePhoto}
-    //       onTakePhoto={handleTakePhoto}
-    //       selectedImage={selectedImage}
-    //       onUpload={handleUpload}
-    //       currentLanguage={selected}
-    //     /> */}
-    //     <StarterMenu onSelectLanguage={handleSelectLanguage} />
-    //     {serverResponse && (
-    //       <Text style={styles.responseText}>
-    //         {JSON.stringify(serverResponse)}
-    //       </Text>
-    //     )}
-    //   </ScrollView>
-    // </SafeAreaView>
+
     <NavigationContainer>
       <SafeAreaView style={styles.container}>
         <StatusBar

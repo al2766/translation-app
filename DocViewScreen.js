@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useRef} from 'react';
-import RNBlobUtil from 'react-native-blob-util';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import FontAwesome from 'react-native-vector-icons/FontAwesome'
+
 
 import {
   ActivityIndicator,
@@ -36,6 +36,17 @@ const DocViewScreen = ({route, navigation, currentLanguage}) => {
   };
 
   return (
+    <>
+    <View style={styles.doneButtonContainer}>
+    <FontAwesome name='chevron-left' light style={{ color: 'black', fontSize: 23 }} />
+        <TouchableOpacity
+          onPress={handleDone}
+          style={styles.doneButton}
+        >    
+
+          <Text style={styles.doneButtonText}>{getTranslatedText('done')}</Text>
+        </TouchableOpacity>
+      </View>
     <ScrollView contentContainerStyle={styles.scrollViewContainer}>
       <View style={styles.imageContainer}>
         <Image source={{uri: selectedImageUri}} style={styles.image} />
@@ -43,28 +54,42 @@ const DocViewScreen = ({route, navigation, currentLanguage}) => {
         <Text style={styles.responseText}>
           {serverResponse} {/* Use the serverResponse directly */}
         </Text>
-        <TouchableOpacity
-          onPress={handleDone}
-          style={styles.uploadButton}>
-          <Text style={styles.buttonText}>{getTranslatedText('done')}</Text>
-        </TouchableOpacity>
+       
 
     
       </View>
     </ScrollView>
-  );
+  </>);
 };
 
 const styles = StyleSheet.create({
-  uploadButton: {
-    backgroundColor: '#007bff', // Example button color
-    padding: 10,
-    borderRadius: 5,
-    marginTop: 20,
-  },
-  buttonText: {
-    color: '#ffffff', // Example text color
+  doneButtonText: {
+    fontSize: 16,
+    color: 'black',
+    fontWeight: '500',
     textAlign: 'center',
+  },
+  doneButtonContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#FFFFFF', // Or any color you prefer
+    padding: 10, // Padding for the button
+  },
+  doneButton: {
+    padding: 10,
+    borderRadius: 10,
+    alignSelf: 'flex-start', 
+    top: 10,
+    left: 10,
+    paddingVertical: 10, // Increase padding vertically to make the buttons taller
+    marginBottom: 20,
+    borderRadius: 12,
+    shadowColor: 'gray',
+    shadowOffset: {width: 0, height: 2},
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
+    elevation: 3,
   },
   scrollViewContainer: {
     flexGrow: 'flex-start',
@@ -72,7 +97,7 @@ const styles = StyleSheet.create({
   responseText: {
     marginTop: 20, // Add more space above the text
     padding: 15, // Add some padding for better readability
-    backgroundColor: '#ebebeb', // Light grey background for contrast
+    backgroundColor: '#e2e2e2', // Light grey background for contrast
     color: '#333333', // Darker text color for readability
     fontSize: 16, // Increase font size
     borderRadius: 8, // Rounded corners

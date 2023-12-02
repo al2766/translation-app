@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useRef} from 'react';
-import RNBlobUtil from 'react-native-blob-util';
+import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {
@@ -124,61 +124,134 @@ const ImageViewScreen = ({route, navigation, currentLanguage}) => {
     }
   };
 
-  return (
-    <ScrollView contentContainerStyle={styles.scrollViewContainer}>
-      <View style={styles.imageContainer}>
-      <TouchableOpacity
+  const handleDone = () => {
+    navigation.navigate('Main');
+  };
+
+  const scrollViewRef = useRef(null); 
+
+  useEffect(() => {
+    if (serverResponse) {
+      // Scroll to the bottom of the ScrollView
+      setTimeout(() => {
+        scrollViewRef.current.scrollToEnd({ animated: true });
+      }, 100); // Adjust this delay as needed
+    }
+  }, [serverResponse]);
+
+  
+    return ( 
+    <>
+    <View style={styles.doneButtonContainer}>
+    <FontAwesome name='chevron-left' light style={{ color: 'black', fontSize: 23 }} />
+
+        <TouchableOpacity
           onPress={handleDone}
-          style={styles.uploadButton}>
-          <Text style={styles.buttonText}>{getTranslatedText('done')}</Text>
-        </TouchableOpacity>
-        <Image source={{uri: selectedImageUri}} style={styles.image} />
+          style={styles.doneButton}
+        >    
 
-        <TouchableOpacity
-          onPress={handleUpload}
-          style={styles.uploadButton}
-          disabled={isUploading}>
-          <Text style={styles.buttonText}>
-            {getTranslatedText('uploadImage')}
-          </Text>
+          <Text style={styles.doneButtonText}>{getTranslatedText('done')}</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          onPress={handleSave}
-          style={styles.uploadButton}
-          disabled={isUploading}>
-          <Text style={styles.buttonText}>{getTranslatedText('save')}</Text>
-        </TouchableOpacity>
-
-        {isUploading ? (
-          <ActivityIndicator size="large" color="#0000ff" />
-        ) : null}
-
-        {serverResponse && (
-          <Text style={styles.responseText}>
-            {JSON.stringify(serverResponse)}
-          </Text>
-        )}
       </View>
-    </ScrollView>
-  );
-};
+      <ScrollView contentContainer Style={styles.scrollViewContainer} ref={scrollViewRef}>
+             
+        <View style={styles.imageContainer}>
+ 
+          <Image source={{uri: selectedImageUri}} style={styles.image} />
+  
+          <TouchableOpacity
+            onPress={handleUpload}
+            style={styles.uploadButton}
+            disabled={isUploading}>
+            <Text style={styles.buttonText}>
+              {getTranslatedText('uploadImage')}
+            </Text>
+          </TouchableOpacity>
+        
+  
+          {isUploading ? (
+            <ActivityIndicator size="large" color="#0000ff" />
+          ) : null}
+  
+          {serverResponse && (
+           
+            <Text style={styles.responseText}>
+              {JSON.stringify(serverResponse)}
+            </Text>
+   
+          )}
+          <View style={styles.bottomButtonsContainer}>
+      
+  
+          {/* Conditionally render the save button */}
+          {serverResponse ? (
+            <TouchableOpacity
+              onPress={handleSave}
+              style={styles.uploadButton}>
+              <Text style={styles.buttonText}>{getTranslatedText('save')}</Text>
+            </TouchableOpacity>
+          ) : null}
+          </View>
+        </View>
+      </ScrollView>
+  </>  );
+  };
+  
 
 const styles = StyleSheet.create({
-  uploadButton: {
-    backgroundColor: '#007bff', // Example button color
-    padding: 10,
-    borderRadius: 5,
-    marginTop: 20,
+  bottomButtonsContainer: {display: 'flex'},
+  doneButtonContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#FFFFFF', // Or any color you prefer
+    padding: 10, // Padding for the button
   },
+  doneButton: {
+    
+    padding: 10,
+    borderRadius: 10,
+    alignSelf: 'flex-start', 
+    top: 10,
+    left: 10,
+    paddingVertical: 10, // Increase padding vertically to make the buttons taller
+    marginBottom: 20,
+    borderRadius: 12,
+    shadowColor: 'gray',
+    shadowOffset: {width: 0, height: 2},
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
+    elevation: 3,
+  },
+ uploadButton: {
+
+  padding: 15, // Increase padding vertically to make the buttons taller
+  marginBottom: 15,
+  backgroundColor: '#4381a2',
+  borderRadius: 12,
+  shadowColor: 'gray',
+  shadowOffset: {width: 0, height: 2},
+  shadowOpacity: 0.3,
+  shadowRadius: 2,
+  elevation: 3,
+},
   buttonText: {
-    color: '#ffffff', // Example text color
+    color: 'white',
+    fontWeight: '600',
+    textAlign: 'center',
+  },
+  doneButtonText: {
+    fontSize: 16,
+
+    color: 'black',
+    fontWeight: '500',
     textAlign: 'center',
   },
   scrollViewContainer: {
     flexGrow: 'flex-start',
   },
   responseText: {
-    marginTop: 20, // Add more space above the text
+    marginVertical: 20, // Add more space above the text
     padding: 15, // Add some padding for better readability
     backgroundColor: '#ebebeb', // Light grey background for contrast
     color: '#333333', // Darker text color for readability
@@ -196,11 +269,12 @@ const styles = StyleSheet.create({
     marginBottom: 100,
   },
   image: {
+    
     width: 300, // Width of the image
     height: 400, // Height of the image
     resizeMode: 'contain', // Ensures the entire image is visible
     alignSelf: 'center', // Centers the image in the container
-    marginTop: 10, // Space at the top
+    marginVertical: 20, // Space at the top
   },
 });
 
