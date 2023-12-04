@@ -17,32 +17,6 @@ import {
 
 import translations from './translations.json';
 
-// const convertLocalFileToBase64 = async filePath => {
-//   function removeFilePrefix(filePath) {
-//     const filePrefix = 'file://';
-
-//     if (filePath.startsWith(filePrefix)) {
-//       // Remove the 'file://' prefix and return the modified path
-//       return filePath.substring(filePrefix.length);
-//     }
-
-//     // If the 'file://' prefix is not found, return the original path
-//     return filePath;
-//   }
-
-//   try {
-//     // Fetch the file content
-//     const data = await RNBlobUtil.fs.readFile(
-//       removeFilePrefix(filePath),
-//       'base64',
-//     );
-//     return data;
-//   } catch (error) {
-//     console.error('Error reading file:', error);
-//     return null;
-//   }
-// };
-
 const ImageViewScreen = ({route, navigation, currentLanguage}) => {
   const [isUploading, setIsUploading] = useState(false);
 
@@ -63,7 +37,7 @@ const ImageViewScreen = ({route, navigation, currentLanguage}) => {
     formData.append('language', currentLanguage);
 
     try {
-      const response = await fetch('http://localhost:5000/processDocument', {
+      const response = await fetch('https://scan-and-translate-406916.nw.r.appspot.com/processDocument', {
         method: 'POST',
         body: formData,
         headers: {
@@ -142,17 +116,17 @@ const ImageViewScreen = ({route, navigation, currentLanguage}) => {
   
     return ( 
     <>
-    <View style={styles.doneButtonContainer}>
-    <FontAwesome name='chevron-left' light style={{ color: 'black', fontSize: 23 }} />
-
-        <TouchableOpacity
+<TouchableOpacity
           onPress={handleDone}
-          style={styles.doneButton}
-        >    
+          style={styles.doneButtonContainer}
+        >   
+    <FontAwesome name='chevron-left' light style={{ color: '#479c92', fontSize: 23 }} />
+
+         
 
           <Text style={styles.doneButtonText}>{getTranslatedText('done')}</Text>
         </TouchableOpacity>
-      </View>
+   
       <ScrollView contentContainer Style={styles.scrollViewContainer} ref={scrollViewRef}>
              
         <View style={styles.imageContainer}>
@@ -206,6 +180,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#FFFFFF', // Or any color you prefer
     padding: 10, // Padding for the button
+    gap: 10,
   },
   doneButton: {
     
@@ -227,7 +202,7 @@ const styles = StyleSheet.create({
 
   padding: 15, // Increase padding vertically to make the buttons taller
   marginBottom: 15,
-  backgroundColor: '#4381a2',
+  backgroundColor: '#479c92',
   borderRadius: 12,
   shadowColor: 'gray',
   shadowOffset: {width: 0, height: 2},
@@ -242,8 +217,7 @@ const styles = StyleSheet.create({
   },
   doneButtonText: {
     fontSize: 16,
-
-    color: 'black',
+    color: '#479c92',
     fontWeight: '500',
     textAlign: 'center',
   },

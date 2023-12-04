@@ -8,65 +8,50 @@ import {
 } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5'
 
-
-const StarterMenu = ({onSelectLanguage, navigation}) => {
+const StarterMenu = ({ onSelectLanguage, navigation }) => {
   const [selectedLanguage, setSelectedLanguage] = useState(null);
 
   const handleLanguageSelect = language => {
-    // setSelectedLanguage(language);
     onSelectLanguage(language);
     navigation.navigate('Main');
+  };
+
+  // Mapping of language codes to native names
+  const languageDisplayNames = {
+    arabic: 'العربية',
+    english: 'English',
+    espanol: 'Español',
   };
 
   const languages = [
     'arabic',
     'english',
     'espanol',
-    'french',
-    'german',
-    'italian',
-    'portuguese',
-    'russian',
-    'japanese',
-    'korean',
-    'chinese',
-    'dutch',
-    'swedish',
-    'finnish',
-    'norwegian',
-    'danish',
-    'polish',
-    'turkish',
-    'hindi',
-    'bengali',
-    'urdu',
-    'greek',
-    'czech',
-    'vietnamese'
   ];
-  
+
   return (
-    
-      <ScrollView contentContainerStyle={styles.container}>
-        <Text style={styles.heading}>Select Your Language</Text>
-        {languages.map(language => (
-          
-          <TouchableOpacity
-            key={language}
-            style={[
-              styles.languageButton,
-              language === selectedLanguage && styles.selectedLanguageButton,
-            ]}
-            onPress={() => handleLanguageSelect(language)}>
-            <Text style={styles.languageButtonText}>{language}</Text>
-            <FontAwesome5 name='chevron-right' style={{ color: 'black', fontSize: 23 }} />
-
-          </TouchableOpacity>
-        ))}
-      </ScrollView>
-
+    <ScrollView contentContainerStyle={styles.container}>
+      <Text style={styles.heading}>Select Your Language</Text>
+      {languages.map(language => (
+        <TouchableOpacity
+          key={language}
+          style={[
+            styles.languageButton,
+            language === selectedLanguage && styles.selectedLanguageButton,
+          ]}
+          onPress={() => handleLanguageSelect(language)}>
+          <Text style={styles.languageButtonText}>
+            {languageDisplayNames[language]}
+          </Text>
+          <FontAwesome5 name='chevron-right' style={{ color: 'black', fontSize: 23 }} />
+        </TouchableOpacity>
+      ))}
+    </ScrollView>
   );
 };
+
+// ...styles remain unchanged...
+
 
 const styles = StyleSheet.create({
   container: {

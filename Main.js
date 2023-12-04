@@ -223,18 +223,18 @@ const Main = ({
 
   return ( 
     <>
-     <View style={styles.changeLanguageContainer}>
-     <FontAwesome name='chevron-left' light style={{ color: 'black', fontSize: 23 }} />
-
-    <TouchableOpacity
+     <TouchableOpacity
     
-        onPress={handleChangeLanguage}
-        style={styles.changeLanguageButton}>
+    onPress={handleChangeLanguage}
+    style={styles.changeLanguageContainer}>
+     <FontAwesome name='chevron-left' light style={{ color: '#479c92', fontSize: 23 }} />
+
+ 
         <Text style={styles.languageButtonText}>
           {getTranslatedText('changeLanguage')}
         </Text>
       </TouchableOpacity>
-      </View>
+
     <View style={styles.container}>
     
 
@@ -334,8 +334,8 @@ borderRadius: 10,
     marginVertical: 10,
   },
   savedContainer: {
-    marginBottom: 90,
-    height: 410,
+    marginBottom: 110,
+    height: 430,
  
   },
 
@@ -380,6 +380,7 @@ flex: 1,
     alignItems: 'center',
     backgroundColor: '#FFFFFF', // Or any color you prefer
     padding: 10, // Padding for the button
+    gap: 10,
   },
   changeLanguageButton: {
     padding: 10,
@@ -413,12 +414,13 @@ flex: 1,
     textAlign: 'center', // Align text to the left
     color: 'black',
     fontWeight: '500',
+    color: '#479c92',
   },
   buttonStyle: {
     alignSelf: 'flex-start', 
     padding: 15, // Increase padding vertically to make the buttons taller
     marginBottom: 15,
-    backgroundColor: '#4381a2',
+    backgroundColor: '#479c92',
     borderRadius: 12,
     shadowColor: 'gray',
     shadowOffset: {width: 0, height: 2},

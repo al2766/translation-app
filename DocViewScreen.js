@@ -37,16 +37,16 @@ const DocViewScreen = ({route, navigation, currentLanguage}) => {
 
   return (
     <>
-    <View style={styles.doneButtonContainer}>
-    <FontAwesome name='chevron-left' light style={{ color: 'black', fontSize: 23 }} />
-        <TouchableOpacity
+   <TouchableOpacity
           onPress={handleDone}
-          style={styles.doneButton}
+          style={styles.doneButtonContainer}
         >    
+    <FontAwesome name='chevron-left' light style={{ color: '#479c92', fontSize: 23 }} />
+      
 
           <Text style={styles.doneButtonText}>{getTranslatedText('done')}</Text>
         </TouchableOpacity>
-      </View>
+
     <ScrollView contentContainerStyle={styles.scrollViewContainer}>
       <View style={styles.imageContainer}>
         <Image source={{uri: selectedImageUri}} style={styles.image} />
@@ -68,6 +68,7 @@ const styles = StyleSheet.create({
     color: 'black',
     fontWeight: '500',
     textAlign: 'center',
+    color: '#479c92',
   },
   doneButtonContainer: {
     display: 'flex',
@@ -75,6 +76,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#FFFFFF', // Or any color you prefer
     padding: 10, // Padding for the button
+    gap: 10,
   },
   doneButton: {
     padding: 10,
